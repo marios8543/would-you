@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Would you ?!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://tzatzikiweeb.moe/static/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container" id="mainWrap">
+        <button id="display_modal" style="display: none;" type="button" data-toggle="modal"
+            data-target="#player_name_modal"></button>
+        <div class="modal fade" id="player_name_modal" tabindex="-1" role="dialog" aria-hidden="true"
+            data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog" role="document">
+                <button id="close_modal" style="display: none;" type="button" class="close" data-dismiss="modal"
+                    aria-label="Close"></button>
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <input v-model="player_name" class="form-control" v-bind:placeholder="lang.player_name">
+                        <div v-if="join_error" class="alert alert-danger" role="alert">
+                            {{ join_error }}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button v-on:click="joinGame()" type="button" class="btn btn-primary">
+                            {{ lang.join_game }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div v-if="game_in_progress" class="col-sm">
+                <div class="row">
+                    <h5>
+                        {{ lang.would_you }} <b>
+                            {{ lang[game.action] }}
+                        </b> {{ lang.thn }} <b>
+                            {{ game.user.name }}
+                            ({{ game.user.username }})
+                        </b>
+                        {{ lang.for }} <b>
+                            ${{ game.money }}
+                        </b>
+                        <div v-if="game.chances.option2">
+                            {{ lang.with }} <b> {{ game.chances.option2 }}%
+                            </b> {{ lang.option2 }}, </div>
+                        <div v-if="game.chances.option3">
+                            {{ lang.with }} <b> {{ game.chances.option3 }}%
+                            </b> {{ lang.option3 }},</div>
+                        <div v-if="game.chances.option4">
+                            {{ lang.with }} <b>{{game.chances.option4 }}%</b> {{ lang.option4 }},
+                        </div>
+                        <div v-if="game.chances.option5">
+                            {{ lang.if_she_was_your}} <b> {{ lang.relations[game.chances.option5-1] }}
+                            </b> {{ lang.sou }},</div>
+                        <div v-if="game.option1">{{ lang.option1}}</div>
+                    </h5>
+                    <img style="margin-left: 1rem;" v-bind:src="game.user.profile_pic">
+                </div>
+                <div style="margin-top: 2rem;" class="row">
+                    <div class="btn-group btn-group-lg">
+                        <button v-on:click="answer('true')" type="button"
+                            class="btn btn-success">{{ lang.yes }}</button>
+                        <button v-on:click="answer('false')" type="button" class="btn btn-danger">{{ lang.no }}</button>
+                        <button style="margin-left: 20px;" v-if="game_in_progress && first_player"
+                            v-on:click="continueGame()" type="button"
+                            class="btn btn-primary">{{ lang.continue }}</button>
+                    </div>
+                </div>
+            </div>
+            <div v-else class="col-sm">
+                <button v-if="first_player" v-on:click="startGame()" class="btn btn-primary btn-lg">
+                    {{ lang.start_game }}
+                </button>
+            </div>
+            <div class="col-sm">
+                <h4>{{ lang.players }}</h4>
+                <ul class="list-group">
+                    <li v-for="p in Object.keys(players)"
+                        class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ p }}
+                        <div v-if="players[p]['answer'] == 1">
+                            <span class="badge badge-success">{{ lang.yes }}</span>
+                        </div>
+                        <div v-if="players[p]['answer'] == 0">
+                            <span class="badge badge-danger">{{ lang.no }}</span>
+                        </div>
+                        <div v-if="players[p]['answer'] == 2">
+                            <span class="badge badge-warning">Ν/Α</span>
+                        </div>
+                        <span class="badge badge-secondary">${{ players[p].balance }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div style="margin-top: 3rem;" class="row">
+            <h4>{{ lang.chat }}</h4><br>
+            <ul style="height: 20rem; overflow-y: scroll; padding:0px; width: 100%;"
+                class="list-group list-group-flush">
+                <li v-for="i in messages" class="list-group-item"><b>{{ i.name }}:</b> {{ i.content }}</li>
+            </ul>
+            <input style="padding-left: 3px; padding-right: 3px;" v-on:keyup.enter="sendMessage" v-model="message_input"
+                type="text" class="form-control" v-bind:placeholder="lang.type_your_message">
+        </div>
+    </div>
+    <script src="https://tzatzikiweeb.moe/static/js/jquery-3.3.1.min.js"></script>
+    <script src="https://tzatzikiweeb.moe/static/js/vue.min.js"></script>
+    <script src="https://tzatzikiweeb.moe/static/js/bootstrap.min.js"></script>
+    <script src="/lang-pack"></script>
+    <script src="static/js/index.js"></script>
+    <script>
+        (function (h, o, t, j, a, r) {
+            h.hj = h.hj || function () { (h.hj.q = h.hj.q || []).push(arguments) };
+            h._hjSettings = { hjid: 1867666, hjsv: 6 };
+            a = o.getElementsByTagName('head')[0];
+            r = o.createElement('script'); r.async = 1;
+            r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+    </script>
+</body>
+
+</html>

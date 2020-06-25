@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Would you ?!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://tzatzikiweeb.moe/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container ml-2">
+        <div class="row">
+            <h1>Would you ?!</h1>
+        </div>
+        <div class="row">
+            <h3>{{ lang['create_game'] }}</h3>
+        </div>
+        {% if error is defined and error != None %}
+        <div class="row">
+            <div class="alert alert-danger" role="alert">
+                {{ lang[error] if error in lang else error }}
+            </div>
+        </div>
+        {% endif %}
+        <form method="POST" action="createGame">
+            <div class="row">
+                <div class="form-group w-100">
+                    <label for="ig_profile">{{ lang['instagram_profile'] }}</label>
+                    <input type="text" name="ig_profile" class="form-control w-50" id="ig_profile"
+                        placeholder="Your instagram username">
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-sm">
+                    {{ lang['options'] }}:
+                    {% for option in options %}
+                    <div class="form-check">
+                        <input name="{{ option }}" class="form-check-input" type="checkbox" id="id-{{ option }}"
+                            checked>
+                        <label class="form-check-label" v-bind:for="id-{{ option }}">
+                            {{ lang[option] }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                    <div class="form-check">
+                        <input name="action1" class="form-check-input" type="checkbox" id="id-action1" checked>
+                        <label class="form-check-label" for="id-action1">
+                            {{ lang['action1'] }}
+                        </label>
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="form-group">
+                        <label for="dif_slider">{{ lang['difficulty'] }}:</label>
+                        <input class="w-75" id="dif_slider" type="range" min="1" value="60" max="95"
+                            name="difficulty"><br>
+                        <small class="text-muted">{{ lang['difficulty_description'] }}</small>
+                    </div>
+                    <div class="form-inline">
+                        <label for="interval">{{ lang['interval'] }}:</label>
+                        <input type="number" class="form-control form-control-sm w-25" id="interval"
+                            value="{{ interval }}" name="interval">
+                        <small class="text-muted pl-2">Max: {{ max_interval }}</small>
+                    </div>
+                    <div class="form-inline pt-4">
+                        <label for="interval">{{ lang['scenarios'] }}:</label>
+                        <input type="number" class="form-control form-control-sm w-25" id="interval"
+                            value="{{ scenarios }}" name="scenarios">
+                        <small class="text-muted pl-2">Max: {{ max_length }}</small>
+                    </div>
+                    <div class="form-check pt-4">
+                        <input name="private" class="form-check-input" type="checkbox" id="private">
+                        <label class="form-check-label" for="private">
+                            {{ lang['private'] }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <button type="submit" class="btn btn-primary">{{ lang['submit'] }}</button>
+                <span class="pl-4 pr-4 pt-2">{{ lang['or'] }}</span>
+                <a href="/randomGame"><button type="button"
+                        class="btn btn-secondary">{{ lang['random_game'] }}</button></a>
+            </div>
+        </form>
+        <!--<img style="margin-top: 15px;" src="https://tzatzikiweeb.moe/static/img/morals.png">-->
+        <script>
+            (function (h, o, t, j, a, r) {
+                h.hj = h.hj || function () { (h.hj.q = h.hj.q || []).push(arguments) };
+                h._hjSettings = { hjid: 1867666, hjsv: 6 };
+                a = o.getElementsByTagName('head')[0];
+                r = o.createElement('script'); r.async = 1;
+                r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+                a.appendChild(r);
+            })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+        </script>
+    </div>
+</body>
+
+</html>

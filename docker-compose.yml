@@ -1,0 +1,20 @@
+version: '3'
+services:
+  wouldyou:
+    build: .
+    container_name: wouldyou
+    environment:
+        - IG_USER_ID=YOUR_INSTAGRAM_USER_ID
+        - IG_SESSION_ID=YOUR_INSTAGRAM_SESSION_ID
+        - PRODUCTION=TRUE
+        - BIND=0.0.0.0:5010
+        - INTERVAL=30
+    networks:
+        - wouldyou-network
+    ports:
+        - 5010:5010
+    restart: unless-stopped
+
+networks:
+  wouldyou-network:
+    driver: bridge
